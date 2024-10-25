@@ -2,17 +2,17 @@
 
 Update for the respository https://github.com/specklesystems/speckle-demo-app
 
-## Updates:
+## Updates
 
 - using Vite
 - Updated from Vue 2 to Vue 3 using composition API
 - Updated from Vuetify 2 to Vuetify 3
 - Updated from vuex to pinia
 
-## Current known Issues:
+## Known Issues
 
 - cannot add detailed data to v-autocomplete
-- Mmssing vuetify layout colors
+- Missing vuetify layout colors
 
 ## Project Setup
 
