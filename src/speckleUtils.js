@@ -1,4 +1,4 @@
-import { userInfoQuery, streamSearchQuery } from "@/speckleQueries"
+import { userInfoQuery, streamSearchQuery, streamCommitsQuery } from "@/speckleQueries"
 
 export const APP_NAME = import.meta.env.VITE_APP_SPECKLE_NAME
 export const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL
@@ -85,3 +85,6 @@ export async function speckleFetch(query) {
 export const getUserData = () => speckleFetch(userInfoQuery())
 
 export const searchStreams = e => speckleFetch(streamSearchQuery(e))
+
+export const getStreamCommits = (streamId, itemsPerPage, cursor) =>
+    speckleFetch(streamCommitsQuery(streamId, itemsPerPage, cursor))

@@ -1,5 +1,5 @@
 <template lang="html">
-  <WelcomeView v-if="!store.isAuthenticated" />
+  <WelcomeView v-if="store.Authenticated" />
   <v-container v-else class="home pa-6">
     <stream-search @selected="handleStreamSelection" />
     <h2 class="pt-6 primary--text">
@@ -16,11 +16,20 @@
         <em>No stream selected. Find one using the search bar 👆🏼</em>
       </span>
     </h2>
+
+    <div class="pt-6">
+      <v-select v-model="selectedKeys" :items="availableKeys" chips label="Select data to display" multiple></v-select>
+      <h3 class="pa-2 primary--text">Stream commits:</h3>
+      <v-data-table :loading="loading" :headers="filteredHeaders" :items="commits ? commits.items : []"
+        v-model:options="options" :server-items-length="commits ? commits.totalCount : null" disable-sort
+        disable-filtering :disable-pagination="loading" class="elevation-1"></v-data-table>
+    </div>
   </v-container>
 </template>
 
+
 <script setup>
-import { computed } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import { useSpeckleStore } from '@/stores/index'; // Adjust the store path as necessary
 
 import StreamSearch from "@/components/StreamSearch.vue";
@@ -32,14 +41,71 @@ const store = useSpeckleStore();
 // Server URL (environment variable)
 const serverUrl = import.meta.env.VUE_APP_SERVER_URL;
 
+const loading = ref(false)
+const options = reactive({ itemsPerPage: 5 })
+
+const selectedKeys = ref(["id", "message", "branchName", "authorName"])
+
+onMounted(() => {
+  const storedOpts = store.tableOptions;
+  if (storedOpts) Object.assign(options, storedOpts);
+});
+
 // Computed properties
 const selectedStream = computed(() => {
   return store.currentStream
 })
 
+
+const commits = computed(() => store.latestCommits);
+
+const previousCursors = computed(() => store.previousCursors || [null]);
+
+const availableKeys = computed(() => {
+  const keys = {};
+  commits.value?.items.forEach((obj) => {
+    Object.keys(obj).forEach((key) => {
+      if (!keys[key]) {
+        keys[key] = true;
+      }
+    });
+  });
+  return Object.keys(keys);
+});
+
+const filteredHeaders = computed(() => {
+  return selectedKeys.value.map((key) => {
+    return { text: key, value: key };
+  });
+});
+
+watch(
+  options,
+  async (val, oldval) => {
+    store.setTableOptions(val);
+    if (oldval.page && val.page !== oldval.page) {
+      loading.value = true;
+      if (val.page > oldval.page) {
+        const cursor = store.latestCommits.cursor;
+        await store.getCommits(cursor);
+        store.addCursorToPreviousList(cursor);
+      } else {
+        console.log('page down');
+        await store.getCommits(previousCursors.value[val.page - 1]);
+      }
+      loading.value = false;
+    }
+  },
+  { deep: true }
+);
+
+
 function handleStreamSelection(event) {
-  console.log(event.value)
   store.handleStreamSelection(event)
+
 }
+
+
+
 
 </script>

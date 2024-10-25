@@ -6,7 +6,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import VueTimeago from 'vue-timeago3';
-
+import piniaPersistedState from 'pinia-plugin-persistedstate';
 
 
 import 'vuetify/styles'; // Global CSS
@@ -24,7 +24,10 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 
-app.use(createPinia())
+const pinia = createPinia();
+pinia.use(piniaPersistedState);
+
+app.use(pinia)
 app.use(router)
 app.use(VueTimeago, { locale: 'en' })
 app.use(vuetify)
