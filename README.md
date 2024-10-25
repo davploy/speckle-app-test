@@ -1,6 +1,6 @@
 # speckle-app-test
 
-Update for the respository https://github.com/specklesystems/speckle-demo-app
+Update for the original repo https://github.com/specklesystems/speckle-demo-app
 
 ## Updates
 
