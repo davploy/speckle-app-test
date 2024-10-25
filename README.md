@@ -1,14 +1,17 @@
 # speckle-app-test
 
-This template should help get you started developing with Vue 3 in Vite.
+Update for the respository https://github.com/specklesystems/speckle-demo-app
 
-## Recommended IDE Setup
+## Updates:
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Updated from Vue 2 to Vue 3 using composition API
+- Updated from Vuetify 2 to Vuetify 3
+- Updated from vuex to pinia
 
-## Customize configuration
+## Current known Issues:
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- cannot add detailed data to v-autocomplete
+- Mmssing vuetify layout colors
 
 ## Project Setup
 

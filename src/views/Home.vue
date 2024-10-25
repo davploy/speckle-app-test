@@ -21,8 +21,8 @@
       <v-select v-model="selectedKeys" :items="availableKeys" chips label="Select data to display" multiple></v-select>
       <h3 class="pa-2 primary--text">Stream commits:</h3>
       <v-data-table :loading="loading" :headers="filteredHeaders" :items="commits ? commits.items : []"
-        v-model:options="options" :server-items-length="commits ? commits.totalCount : null" disable-sort
-        disable-filtering :disable-pagination="loading" class="elevation-1"></v-data-table>
+        :items-length="commits ? commits.totalCount : null" v-model:page="options.page"
+        v-model:items-per-page="options.itemsPerPage" class="elevation-1"></v-data-table>
     </div>
   </v-container>
 </template>
@@ -75,9 +75,12 @@ const availableKeys = computed(() => {
 
 const filteredHeaders = computed(() => {
   return selectedKeys.value.map((key) => {
-    return { text: key, value: key };
+    return {
+      title: key,
+      key: key,
+    };
   });
-});
+})
 
 watch(
   options,

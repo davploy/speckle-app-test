@@ -21,8 +21,6 @@ export function goToSpeckleAuthPage() {
     // Save challenge in localStorage
     localStorage.setItem(CHALLENGE, challenge)
 
-
-    console.log(`${SERVER_URL}/authn/verify/${import.meta.env.VITE_APP_SPECKLE_ID}/${challenge}`)
     // Send user to auth page
     window.location = `${SERVER_URL}/authn/verify/${import.meta.env.VITE_APP_SPECKLE_ID}/${challenge}`
 }

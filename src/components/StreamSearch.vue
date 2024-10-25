@@ -3,7 +3,7 @@
         filled dense flat hide-no-data hide-details placeholder="Streams Search" item-title="name" item-value="id"
         return-object clearable append-icon="" @update:search="debounceInput">
 
-
+        <!-- TO-DO customize template for items, currently not working -->
         <!-- <template v-slot:item="{ item }">
             <v-list-item>
                 <v-list-item-title>
@@ -20,10 +20,7 @@
             </v-list-item>
         </template> -->
 
-
     </v-autocomplete>
-
-    <!-- <p>{{ streams }}</p> -->
 
 </template>
 
@@ -43,7 +40,6 @@ const selectedSearchResult = ref(null)
 
 // Watch for changes to selectedSearchResult
 watch(selectedSearchResult, (val) => {
-    console.log(val)
     search.value = ''
     streams.value.items = []
     if (val) emit('selected', val)
