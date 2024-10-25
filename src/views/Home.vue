@@ -1,14 +1,14 @@
 <template lang="html">
   <WelcomeView v-if="!store.isAuthenticated" />
   <v-container v-else class="home pa-6">
-    <stream-search @selected="store.handleStreamSelection(event)" />
+    <stream-search @selected="handleStreamSelection" />
     <h2 class="pt-6 primary--text">
       <span v-if="selectedStream">
         {{ selectedStream.name }} — {{ selectedStream.id }}
         <v-btn outlined text small class="ml-3" :href="serverUrl + '/streams/' + selectedStream.id">
           View in server
         </v-btn>
-        <v-btn outlined text small class="ml-3" color="error" @click="store.clearStreamSelection">
+        <v-btn outlined text small class="ml-3" color="error" @click="store.clearStreamSelection()">
           Clear selection
         </v-btn>
       </span>
@@ -22,6 +22,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useSpeckleStore } from '@/stores/index'; // Adjust the store path as necessary
+
 import StreamSearch from "@/components/StreamSearch.vue";
 import WelcomeView from "@/components/WelcomeView.vue";
 
@@ -32,15 +33,13 @@ const store = useSpeckleStore();
 const serverUrl = import.meta.env.VUE_APP_SERVER_URL;
 
 // Computed properties
-const selectedStream = computed(() => store.currentStream);
-const isAuthenticated = computed(() => store.isAuthenticated);
+const selectedStream = computed(() => {
+  return store.currentStream
+})
 
-// Methods to handle stream selection and clearing
-const handleStreamSelection = (stream) => {
-  store.handleStreamSelection(stream);
-};
+function handleStreamSelection(event) {
+  console.log(event.value)
+  store.handleStreamSelection(event)
+}
 
-const clearStreamSelection = () => {
-  store.clearStreamSelection();
-};
 </script>

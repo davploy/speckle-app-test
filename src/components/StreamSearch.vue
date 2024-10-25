@@ -1,8 +1,10 @@
 <template>
     <v-autocomplete v-model="selectedSearchResult" :items="streams.items" v-model:search="search" no-filter counter="2"
-        rounded filled dense flat hide-no-data hide-details placeholder="Streams Search" item-title="name"
-        item-value="id" return-object clearable @update:search="debounceInput" @update:model-value="handleModelUpdate">
-        <template v-slot:item="{ item }">
+        filled dense flat hide-no-data hide-details placeholder="Streams Search" item-title="name" item-value="id"
+        return-object clearable append-icon="" @update:search="debounceInput">
+
+
+        <!-- <template v-slot:item="{ item }">
             <v-list-item>
                 <v-list-item-title>
                     <v-row class="pa-0 ma-0">
@@ -13,10 +15,12 @@
                 </v-list-item-title>
                 <v-list-item-subtitle class="caption">
                     Updated
-                    <!-- <time-ago :datetime="item.updatedAt"></time-ago> -->
+                    <time-ago :datetime="item.updatedAt"></time-ago>
                 </v-list-item-subtitle>
             </v-list-item>
-        </template>
+        </template> -->
+
+
     </v-autocomplete>
 
     <!-- <p>{{ streams }}</p> -->
@@ -45,19 +49,11 @@ watch(selectedSearchResult, (val) => {
     if (val) emit('selected', val)
 })
 
-const handleModelUpdate = (value) => {
-    selectedSearchResult.value = value;
-    search.value = ''; // Clear search input after selection
-    streams.value.items = []; // Optionally clear items if desired
-    if (value) emit('selected', value);
-};
-
 // Fetch search results asynchronously
 const fetchSearchResults = async (e) => {
     if (!e || e.length < 1) return
     const json = await searchStreams(e)
     streams.value = json.data.streams
-    console.log(streams.value)
 }
 
 // Debounce input handler

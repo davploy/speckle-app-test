@@ -33,8 +33,8 @@ export const useSpeckleStore = defineStore('speckleStore', {
         setServerInfo(info) {
             this.serverInfo = info;
         },
-        setCurrentStream(state, stream) {
-            state.currentStream = stream
+        setCurrentStream(stream) {
+            this.currentStream = stream
         },
 
         logout() {
@@ -66,12 +66,11 @@ export const useSpeckleStore = defineStore('speckleStore', {
         redirectToAuth() {
             goToSpeckleAuthPage();
         },
-        handleStreamSelection(context, stream) {
-            context.commit("setCurrentStream", stream)
+        handleStreamSelection(stream) {
+            this.currentStream = stream;
         },
-
-        clearStreamSelection(context) {
-            context.commit("setCurrentStream", null)
+        clearStreamSelection() {
+            this.currentStream = null;
         },
     }
 
