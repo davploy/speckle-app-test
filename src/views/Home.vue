@@ -1,14 +1,14 @@
 <template lang="html">
-  <WelcomeView v-if="!isAuthenticated" />
+  <WelcomeView v-if="!store.isAuthenticated" />
   <v-container v-else class="home pa-6">
-    <stream-search @selected="handleStreamSelection" />
+    <stream-search @selected="store.handleStreamSelection(event)" />
     <h2 class="pt-6 primary--text">
       <span v-if="selectedStream">
         {{ selectedStream.name }} — {{ selectedStream.id }}
         <v-btn outlined text small class="ml-3" :href="serverUrl + '/streams/' + selectedStream.id">
           View in server
         </v-btn>
-        <v-btn outlined text small class="ml-3" color="error" @click="clearStreamSelection">
+        <v-btn outlined text small class="ml-3" color="error" @click="store.clearStreamSelection">
           Clear selection
         </v-btn>
       </span>
