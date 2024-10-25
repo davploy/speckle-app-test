@@ -4,6 +4,7 @@ Update for the respository https://github.com/specklesystems/speckle-demo-app
 
 ## Updates:
 
+- using Vite
 - Updated from Vue 2 to Vue 3 using composition API
 - Updated from Vuetify 2 to Vuetify 3
 - Updated from vuex to pinia
